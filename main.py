@@ -19,8 +19,8 @@ class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
         query = event.get_argument() or ''
 
-        output = subprocess.run(f'wmctrl -l | awk \'$2 != "-1"\' | cut -d \' \' -f 5- | fzf -f \'{query}\'', shell=True, text=True, capture_output=True).stdout
-        windows = output.split("\n")
+        output = subprocess.run(f'wmctrl -l | awk \'$2 != "-1"\' | cut -d " " -f 5- | fzf -f \'{query}\'', shell=True, text=True, capture_output=True).stdout
+        windows = output.strip().split("\n")
 
         items = []
 
