@@ -36,6 +36,16 @@ class KeywordQueryEventListener(EventListener):
 
         self.logger = logging.getLogger(__name__)
 
+    def get_combined_fuzzy_score(self, wm_class, title, query):
+        query = query.lower().strip()
+        wm_class = wm_class.lower().strip()
+        title = title.lower().stip()
+
+        wm_class_score = fuzz.ratio(query, wm_class)
+        combined_score = fuzz.token_set_ratio(query, f"{wm_class} {title}")
+
+        return (2 * wm_class_score) + combined_score
+
     def get_windows(self):
         try:
             windows_json = self.obj_interface.List()
@@ -56,8 +66,7 @@ class KeywordQueryEventListener(EventListener):
 
         windows_data = self.get_windows()
         windows_data.sort(
-            key=lambda x: fuzz.token_set_ratio(
-                query, f"{x["title"]} + {x["wm_class"]}"
+            key=lambda x: self.get_combined_fuzzy_score(x['wm_class'], x['title'], query)  
             ),
             reverse=True,
         )
