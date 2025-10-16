@@ -10,8 +10,7 @@ from ulauncher.api.shared.action.RenderResultListAction import \
     RenderResultListAction
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 from ulauncher.api.shared.event import KeywordQueryEvent
-from ulauncher.api.shared.item.ExtensionSmallResultItem import \
-    ExtensionSmallResultItem
+from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 
 
 class DemoExtension(Extension):
@@ -60,7 +59,7 @@ class KeywordQueryEventListener(EventListener):
 
         for window in windows_data:
             items.append(
-                ExtensionSmallResultItem(
+                ExtensionResultItem(
                     icon="images/icon.png",
                     name=f"{window['wm_class']}: {window['title']}",
                     on_enter=RunScriptAction(
