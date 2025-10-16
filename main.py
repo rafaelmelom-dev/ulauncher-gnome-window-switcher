@@ -63,7 +63,8 @@ class KeywordQueryEventListener(EventListener):
         for window in windows_data:
             items.append(
                 ExtensionResultItem(
-                    icon="images/icon.png",
+                    # icon="images/icon.png",
+                    icon=window["wm_class"],
                     name=f"{window['wm_class']}: {window['title']}",
                     on_enter=RunScriptAction(
                         f"gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows --method org.gnome.Shell.Extensions.Windows.Activate {window['id']}"
