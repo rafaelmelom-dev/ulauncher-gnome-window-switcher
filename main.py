@@ -76,7 +76,7 @@ class KeywordQueryEventListener(EventListener):
         items = []
 
         for window in windows_data:
-            icon = self.icon_search_obj.lookup_icon(window["wm_class"], [])
+            icon = self.icon_search_obj.lookup_icon(window["wm_class"], 48, 0)
             if icon:
                 icon_name = icon.get_filename()
             else:
