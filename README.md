@@ -41,6 +41,8 @@ The extension is triggered using its assigned keyword (default is **ws**).
 
 3. Select: Press Enter on the desired window to activate it and close the Ulauncher window.
 
+(if the icon has changed, it is necessary to realaunch the Ulauncher to icon work, just use `pkill ulauncher` and reopen it. If you can't do this, reboot your computer)
+
 # Development
 
 If you are contributing or debugging, you can run the extension in development mode to see verbose logging:
