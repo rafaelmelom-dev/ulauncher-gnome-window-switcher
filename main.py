@@ -2,7 +2,7 @@ import json
 import logging
 import subprocess
 
-from dbus import SessionBus
+from dbus import Interface, SessionBus
 from rapidfuzz import fuzz
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.client.Extension import Extension
@@ -28,12 +28,13 @@ class KeywordQueryEventListener(EventListener):
         INTERFACE = "org.gnome.Shell.Extensions.Windows"
 
         self.bus = SessionBus()
-        self.obj = self.bus.get(BUS_NAME, OBJECT_PATH)
+        self.obj = self.bus.get_object(BUS_NAME, OBJECT_PATH)
+        self.obj_interface = Interface(self.obj, INTERFACE)
         self.logger = logging.getLogger(__name__)
 
     def get_windows(self):
         try:
-            windows_json = self.obj.List()
+            windows_json = self.obj_interface.List()
             windows_data = json.loads(windows_json)
 
             return windows_data
@@ -43,7 +44,7 @@ class KeywordQueryEventListener(EventListener):
             print(f"ERROR: {e}")
 
     def move_to_window(self, window_data):
-        self.obj.Activate(window_data["id"])
+        self.obj_interface.Activate(window_data["id"])
 
     def on_event(self, event, extension):
         query = event.get_argument() or ""
@@ -62,7 +63,9 @@ class KeywordQueryEventListener(EventListener):
                 ExtensionSmallResultItem(
                     icon="images/icon.png",
                     name=f"{window['wm_class']} -> {window['title']}",
-                    on_enter=self.move_to_window(window),
+                    on_enter=RunScriptAction(
+                        f"gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows --method org.gnome.Shell.Extensions.Windows.Activate {window[id]}"
+                    ),
                 )
             )
 
