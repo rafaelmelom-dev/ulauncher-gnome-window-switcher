@@ -1,4 +1,5 @@
 import json
+import logging
 import subprocess
 
 from dbus import SessionBus
@@ -28,6 +29,7 @@ class KeywordQueryEventListener(EventListener):
 
         self.bus = SessionBus()
         self.obj = self.bus.get(BUS_NAME, OBJECT_PATH)
+        self.logger = logging.getLogger(__name__)
 
     def get_windows(self):
         try:
@@ -45,11 +47,13 @@ class KeywordQueryEventListener(EventListener):
 
     def on_event(self, event, extension):
         query = event.get_argument() or ""
+        self.logger.info("INITIALIZING QUERY: ", query)
 
         windows_data = self.get_windows()
         windows_data.sort(
             key=lambda x: fuzz.ratio(query, x["title"] + x["wm_class"]), reverse=True
         )
+        self.logger.debug(windows_data)
 
         items = []
 
@@ -61,6 +65,8 @@ class KeywordQueryEventListener(EventListener):
                     on_enter=self.move_to_window(window),
                 )
             )
+
+        self.logger.info("OBJECTS CREATED")
 
         return RenderResultListAction(items)
 
