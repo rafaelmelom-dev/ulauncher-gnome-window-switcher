@@ -64,7 +64,7 @@ class KeywordQueryEventListener(EventListener):
                     icon="images/icon.png",
                     name=f"{window['wm_class']}: {window['title']}",
                     on_enter=RunScriptAction(
-                        f"gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows --method org.gnome.Shell.Extensions.Windows.Activate {window[id]}"
+                        f"gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows --method org.gnome.Shell.Extensions.Windows.Activate {window['id']}"
                     ),
                 )
             )
