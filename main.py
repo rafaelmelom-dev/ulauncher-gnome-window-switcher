@@ -1,8 +1,11 @@
 import json
 import logging
-import subprocess
 
+import gi
+
+gi.require_version("Gtk", "3.0")
 from dbus import Interface, SessionBus
+from gi.repository import Gtk
 from rapidfuzz import fuzz
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.client.Extension import Extension
@@ -29,6 +32,8 @@ class KeywordQueryEventListener(EventListener):
         self.bus = SessionBus()
         self.obj = self.bus.get_object(BUS_NAME, OBJECT_PATH)
         self.obj_interface = Interface(self.obj, INTERFACE)
+        self.icon_search_obj = Gtk.IconTheme.get_default()
+
         self.logger = logging.getLogger(__name__)
 
     def get_windows(self):
@@ -61,10 +66,15 @@ class KeywordQueryEventListener(EventListener):
         items = []
 
         for window in windows_data:
+            icon = self.icon_search_obj.lookup_icon(window["wm_class"], 48, 0)
+            if icon:
+                icon_name = icon.get_filename()
+            else:
+                icon_name = "images/icon.png"
+
             items.append(
                 ExtensionResultItem(
-                    # icon="images/icon.png",
-                    icon=window["wm_class"],
+                    icon=icon_name,
                     name=f"{window['wm_class']}: {window['title']}",
                     on_enter=RunScriptAction(
                         f"gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows --method org.gnome.Shell.Extensions.Windows.Activate {window['id']}"
