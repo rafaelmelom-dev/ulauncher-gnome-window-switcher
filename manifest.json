@@ -1,18 +1,18 @@
 {
   "required_api_version": "2",
-  "name": "Find Window",
-  "description": "A window switcher extension that does fuzzy matching to find a window",
-  "developer_name": "Tim Whitbeck",
+  "name": "Window Switcher",
+  "description": "A window switcher extension that does fuzzy matching to find a window in GNOME",
+  "developer_name": "Rafael Melo",
   "icon": "images/icon.png",
   "options": {
     "query_debounce": 0.2
   },
   "preferences": [
     {
-      "id": "find_window_kw",
+      "id": "window_switcher",
       "type": "keyword",
-      "name": "Find Window",
-      "default_value": "f"
+      "name": "Window Switcher",
+      "default_value": "ws"
     }
   ]
 }
