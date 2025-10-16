@@ -51,7 +51,10 @@ class KeywordQueryEventListener(EventListener):
 
         windows_data = self.get_windows()
         windows_data.sort(
-            key=lambda x: fuzz.ratio(query, x["title"] + x["wm_class"]), reverse=True
+            key=lambda x: fuzz.token_sort_ratio(
+                query, f"{x["title"]} + {x["wm_class"]}"
+            ),
+            reverse=True,
         )
         self.logger.debug(windows_data)
 
