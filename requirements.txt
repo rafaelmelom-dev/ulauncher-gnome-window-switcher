@@ -1,0 +1,3 @@
+python-pydbus
+rapidfuzz
+Window Calls (GNOME extension)

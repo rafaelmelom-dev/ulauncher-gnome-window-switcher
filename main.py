@@ -1,11 +1,17 @@
-from ulauncher.api.client.Extension import Extension
-from ulauncher.api.client.EventListener import EventListener
-from ulauncher.api.shared.event import KeywordQueryEvent
-from ulauncher.api.shared.item.ExtensionSmallResultItem import ExtensionSmallResultItem
-from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
-from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
-
+import json
 import subprocess
+
+from dbus import SessionBus
+from rapidfuzz import fuzz
+from ulauncher.api.client.EventListener import EventListener
+from ulauncher.api.client.Extension import Extension
+from ulauncher.api.shared.action.RenderResultListAction import \
+    RenderResultListAction
+from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
+from ulauncher.api.shared.event import KeywordQueryEvent
+from ulauncher.api.shared.item.ExtensionSmallResultItem import \
+    ExtensionSmallResultItem
+
 
 class DemoExtension(Extension):
 
@@ -15,21 +21,49 @@ class DemoExtension(Extension):
 
 
 class KeywordQueryEventListener(EventListener):
+    def __init__(self):
+        BUS_NAME = "org.gnome.Shell"
+        OBJECT_PATH = "/org/gnome/Shell/Extensions/Windows"
+        INTERFACE = "org.gnome.Shell.Extensions.Windows"
+
+        self.bus = SessionBus()
+        self.obj = self.bus.get(BUS_NAME, OBJECT_PATH)
+
+    def get_windows(self):
+        try:
+            windows_json = self.obj.List()
+            windows_data = json.loads(windows_json)
+
+            return windows_data
+        except KeyError:
+            print("DBUS ERROR")
+        except Exception as e:
+            print(f"ERROR: {e}")
+
+    def move_to_window(self, window_data):
+        self.obj.Activate(window_data["id"])
 
     def on_event(self, event, extension):
-        query = event.get_argument() or ''
+        query = event.get_argument() or ""
 
-        output = subprocess.run(f'wmctrl -l | awk \'$2 != "-1"\' | cut -d " " -f 5- | fzf -f \'{query}\'', shell=True, text=True, capture_output=True).stdout
-        windows = output.strip().split("\n")
+        windows_data = self.get_windows()
+        windows_data.sort(
+            key=lambda x: fuzz.ratio(query, x["title"] + x["wm_class"]), reverse=True
+        )
 
         items = []
 
-        for window in windows:
-            items.append(ExtensionSmallResultItem(icon='images/icon.png',
-                                             name=window,
-                                             on_enter=RunScriptAction(f'wmctrl -a \'{window}\'')))
+        for window in windows_data:
+            items.append(
+                ExtensionSmallResultItem(
+                    icon="images/icon.png",
+                    name=f"{window['wm_class']} -> {window['title']}",
+                    on_enter=self.move_to_window(window),
+                )
+            )
 
         return RenderResultListAction(items)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     DemoExtension().run()
