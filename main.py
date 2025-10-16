@@ -66,7 +66,8 @@ class KeywordQueryEventListener(EventListener):
 
         windows_data = self.get_windows()
         windows_data.sort(
-            key=lambda x: self.get_combined_fuzzy_score(x['wm_class'], x['title'], query)  
+            key=lambda x: self.get_combined_fuzzy_score(
+                x["wm_class"], x["title"], query
             ),
             reverse=True,
         )
