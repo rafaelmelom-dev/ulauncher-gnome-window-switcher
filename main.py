@@ -44,7 +44,7 @@ class KeywordQueryEventListener(EventListener):
         wm_class_score = fuzz.ratio(query, wm_class)
         combined_score = fuzz.token_set_ratio(query, f"{wm_class} {title}")
 
-        return (2 * wm_class_score) + combined_score
+        return (5 * wm_class_score) + combined_score
 
     def get_windows(self):
         try:
