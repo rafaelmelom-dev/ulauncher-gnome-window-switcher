@@ -17,9 +17,11 @@ A fast and intelligent Ulauncher extension for switching to open windows across 
 Follow the standard procedure for adding Ulauncher extensions.
 
 1. Open Ulauncher Preferences
+
    Open Ulauncher and go to **Extensions**.
 
 2. Add the Extension URL
+
    Click Add Extension and paste the GitHub URL:[https://github.com/rafaelmelom-dev/ulauncher-gnome-window-switcher](https://github.com/rafaelmelom-dev/ulauncher-gnome-window-switcher)
 
 3. Check Dependencies (If needed) This extension relies on Python packages for fuzzy matching and interacting with the window manager. Is used:
