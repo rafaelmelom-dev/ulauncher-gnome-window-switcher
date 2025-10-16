@@ -27,7 +27,9 @@ Follow the standard procedure for adding Ulauncher extensions.
 3. Check Dependencies (If needed) This extension relies on Python packages for fuzzy matching and interacting with the window manager. Is used:
    - **pydbus**: Used for communicating with D-BUS - [https://pypi.org/project/pydbus/](https://pypi.org/project/pydbus/)
    - **rapidfuzz**: Used for matching a query, exclusively for search a window - [https://pypi.org/project/RapidFuzz/](https://pypi.org/project/RapidFuzz/)
+   - **pygobject**: Used to get the icon of the program - [https://pypi.org/project/PyGObject/](https://pypi.org/project/PyGObject/)
    - **Window Calls (GNOME extension)**: This extension exposes windows to dbus interface, turning easy the task of listing windows - [https://extensions.gnome.org/extension/4724/window-calls/](https://extensions.gnome.org/extension/4724/window-calls/)
+     (This extension uses **gdbus** command line too, for activate the window, it is included with GNOME, so if you are modifying this project to another window manager, check the extension ahead and Ulauncher extension docs for adaptations)
 
 # Usage
 

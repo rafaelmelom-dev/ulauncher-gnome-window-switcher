@@ -39,7 +39,7 @@ class KeywordQueryEventListener(EventListener):
     def get_combined_fuzzy_score(self, wm_class, title, query):
         query = query.lower().strip()
         wm_class = wm_class.lower().strip()
-        title = title.lower().stip()
+        title = title.lower().strip()
 
         wm_class_score = fuzz.ratio(query, wm_class)
         combined_score = fuzz.token_set_ratio(query, f"{wm_class} {title}")
