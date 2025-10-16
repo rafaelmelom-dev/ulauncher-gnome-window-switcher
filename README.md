@@ -17,18 +17,15 @@ A fast and intelligent Ulauncher extension for switching to open windows across 
 Follow the standard procedure for adding Ulauncher extensions.
 
 1. Open Ulauncher Preferences
-
-Open Ulauncher and go to **Extensions**.
+   Open Ulauncher and go to **Extensions**.
 
 2. Add the Extension URL
-
-Click Add Extension and paste the GitHub URL:[https://github.com/rafaelmelom-dev/ulauncher-gnome-window-switcher](https://github.com/rafaelmelom-dev/ulauncher-gnome-window-switcher)
+   Click Add Extension and paste the GitHub URL:[https://github.com/rafaelmelom-dev/ulauncher-gnome-window-switcher](https://github.com/rafaelmelom-dev/ulauncher-gnome-window-switcher)
 
 3. Check Dependencies (If needed) This extension relies on Python packages for fuzzy matching and interacting with the window manager. Is used:
-
-- **pydbus**: Used for communicating with D-BUS - [https://pypi.org/project/pydbus/](https://pypi.org/project/pydbus/)
-- **rapidfuzz**: Used for matching a query, exclusively for search a window - [https://pypi.org/project/RapidFuzz/](https://pypi.org/project/RapidFuzz/)
-- **Window Calls (GNOME extension)**: This extension exposes windows to dbus interface, turning easy the task of listing windows - [https://extensions.gnome.org/extension/4724/window-calls/](https://extensions.gnome.org/extension/4724/window-calls/)
+   - **pydbus**: Used for communicating with D-BUS - [https://pypi.org/project/pydbus/](https://pypi.org/project/pydbus/)
+   - **rapidfuzz**: Used for matching a query, exclusively for search a window - [https://pypi.org/project/RapidFuzz/](https://pypi.org/project/RapidFuzz/)
+   - **Window Calls (GNOME extension)**: This extension exposes windows to dbus interface, turning easy the task of listing windows - [https://extensions.gnome.org/extension/4724/window-calls/](https://extensions.gnome.org/extension/4724/window-calls/)
 
 # Usage
 
@@ -47,8 +44,7 @@ If you are contributing or debugging, you can run the extension in development m
 1. Stop running Ulauncher: `pkill ulauncher`
 
 2. Run in development mode: `ulauncher --no-extensions --dev -v`
-
-(Your verbose logs, including the sorted windows information, will appear here.)
+   (Your verbose logs, including the sorted windows information, will appear here.)
 
 Key Files
 
